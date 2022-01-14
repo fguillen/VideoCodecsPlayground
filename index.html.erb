@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A bunch of Videos encoded in different formats for testing in different browsers">
+    <meta name="keywords" content="HTML, Vide, codecs, vp9, opus, aac, libx264, webm, mp4">
+    <meta name="author" content="Fernando Guillen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Video Codecs Playground by Fernando Guillen</title>
+
+    <!-- Pluggins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js" integrity="sha512-F/gIMdDfda6OD2rnzt/Iyp2V9JLHlFQ+EUyixDg9+rkwjqgW1snpkpx7FD5FV1+gG2fmFj7I3r6ReQDUidHelA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/sorts/tablesort.number.min.js" integrity="sha512-dRD755QRxlybm0h3LXXIGrFcjNakuxW3reZqnPtUkMv6YsSWoJf+slPjY5v4lZvx2ss+wBZQFegepmA7a2W9eA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  </head>
+  <body>
+
+    <div class="col-lg-8 mx-auto p-3 py-md-5">
+      <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+        <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img"><title>Bootstrap</title><path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z" fill="currentColor"></path></svg>
+          <span class="fs-4">Starter template</span>
+        </a>
+      </header>
+
+      <main>
+        <h1>Video Codecs Playground</h1>
+        <p class="fs-5 col-md-8">
+          Bunch of videos with different codecs and ffmpeg settings to test for compatibility in different browsers, quality and encoding compression and performance.
+        </p>
+
+        <p class="fs-5 col-md-8">
+          You can get the code from this project in the <a href="https://github.com/fguillen/VideoCodecsPlayground">github repo</a> and check it with your own video and setups.
+        </p>
+
+        <p><small>Original video from <a href="https://vimeo.com/187240050">here</a></small></p>
+
+        <hr class="col-3 col-md-2 mb-5">
+
+        <h2>Table results</h2>
+        <table class="table table-sm table-hover" id="table-results">
+          <thead>
+            <tr>
+              <th scope="col">name</th>
+              <th scope="col">container</th>
+              <th scope="col">video_codec</th>
+              <th scope="col">audio_codec</th>
+              <th scope="col" class="text-end">original_file_size</th>
+              <th scope="col" class="text-end">compressed_file_size</th>
+              <th scope="col" class="text-end">time</th>
+              <th scope="col" class="text-end">compression_ratio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% results.each do |result| %>
+              <tr>
+                <th scope="row"><a href="#video-<%= result["id"] %>"><%= result["name"] %></a></th>
+                <td scope="col"><%= result["container"] %></td>
+                <td scope="col"><%= result["video_codec"] %></td>
+                <td scope="col"><%= result["audio_codec"] %></td>
+                <td scope="col" class="text-end"><%= (result["original_file_size"].to_f / 1000000).round(2) %>MBs</td>
+                <td scope="col" class="text-end"><%= (result["compressed_file_size"].to_f / 1000000).round(2) %>MBs</td>
+                <td scope="col" class="text-end"><%= result["time_formatted"] %></td>
+                <td scope="col" class="text-end"><%= result["compression_ratio"] %>%</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <h2>Original</h2>
+        <div class="row row-cols-1 row-cols-xl-2">
+          <div class="col">
+            <div class="card mb-3" id="video-original">
+              <video controls>
+                <source src="../original.mp4" type='video/webm; codecs="h264, aac"'>
+              </video>
+              <div class="card-body">
+                <h5 class="card-title">Original</h5>
+                <ul>
+                  <li><strong>container:</strong> mp4</li>
+                  <li><strong>video_codec:</strong> h264</li>
+                  <li><strong>audio_codec:</strong> acc</li>
+                </ul>
+
+                <div class="text-end">
+                  <a href="../original.mp4">Download</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2>Video Variants</h2>
+        <div class="row row-cols-1 row-cols-xl-2">
+          <% results.each do |result| %>
+            <div class="col">
+              <div class="card mb-3" id="video-<%= result["id"] %>">
+                <video controls>
+                  <source src="./<%= result["output_url"] %>" type='video/<%= result["container"] %>; codecs="<%= result["video_codec"]%>, <%= result["audio_codec"]%>"'>
+                </video>
+                <div class="card-body">
+                  <h5 class="card-title"><%= result["name"] %></h5>
+                  <ul>
+                    <li><strong>container:</strong> <%= result["container"] %></li>
+                    <li><strong>video_codec:</strong> <%= result["video_codec"] %></li>
+                    <li><strong>audio_codec:</strong> <%= result["audio_codec"] %></li>
+                    <li><strong>command:</strong> <code><%= result["command"] %></code></li>
+                  </ul>
+
+                  <h6>Results</h6>
+                  <ul>
+                    <li><strong>time:</strong> <%= result["time_formatted"] %></li>
+                    <li><strong>original_file_size:</strong> <%= (result["original_file_size"].to_f / 1000000).round(2) %>MBs</li>
+                    <li><strong>compressed_file_size:</strong> <%= (result["compressed_file_size"].to_f / 1000000).round(2) %>MBs</li>
+                    <li><strong>compression_ratio:</strong> <%= result["compression_ratio"] %>%</li>
+                  </ul>
+
+                  <div class="text-end">
+                    <a href="./<%= result["output_url"]%>">Download</a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          <% end %>
+        </div>
+      </main>
+      <footer class="pt-5 my-5 text-muted border-top">
+        Experiment by the Fernando Guillen at 2022
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <script>
+      new Tablesort(document.getElementById("table-results"));
+    </script>
+  </body>
+</html>
